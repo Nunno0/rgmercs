@@ -243,6 +243,10 @@ local _ClassConfig = {
             "Engulfing Darkness",   -- Level 11
             "Clinging Darkness",    -- Level 4
         },
+		['ColdDot'] = {
+            "Chillgrave", 	-- Level 68
+            "Frostgrave",   -- Level 62
+        },
         ['ScentDebuff'] = {
             "Scent of Terris",   -- Level 52
             "Scent of Darkness", -- Level 37
@@ -351,10 +355,6 @@ local _ClassConfig = {
             "Greater Minionskin", -- Level 56 EQM Custom
             "Minionskin",         -- Level 43 EQM Custom
             "Lesser Minionskin",  -- Level 30 EQM Custom
-        },
-        ['ColdDot'] = {
-            "Chillgrave", -- Level 69 EQM Custom
-            "Frostgrave", -- Level 63 EQ Custom
         },
     },
     ['AASets']          = {
@@ -610,14 +610,6 @@ local _ClassConfig = {
                 end,
             },
             {
-                name = "ColdDot",
-                type = "Spell",
-                load_cond = function() return Config:GetSetting('DoColdDot') end,
-                cond = function(self, spell, target)
-                    return Casting.DotSpellCheck(spell, target)
-                end,
-            },
-            {
                 name = "CurseDot",
                 type = "Spell",
                 load_cond = function() return Config:GetSetting('DoCurseDot') > 1 end,
@@ -629,6 +621,14 @@ local _ClassConfig = {
                 name = "PoisonDot",
                 type = "Spell",
                 load_cond = function() return Config:GetSetting('DoPoisonDot') > 1 end,
+                cond = function(self, spell, target)
+                    return Casting.DotSpellCheck(spell, target)
+                end,
+            },
+			{
+                name = "ColdDot",
+                type = "Spell",
+                load_cond = function() return Config:GetSetting('DoColdDot') > 1 end,
                 cond = function(self, spell, target)
                     return Casting.DotSpellCheck(spell, target)
                 end,
@@ -952,14 +952,14 @@ local _ClassConfig = {
                 { name = "ScentDebuff2", cond = function(self) return Config:GetSetting('ScentDebuffUse') == 3 end, },
                 { name = "PoisonNuke", },
                 { name = "FireDot",      cond = function(self) return Config:GetSetting('DoFireDot') > 1 end, },
-                { name = "ColdDot",      cond = function(self) return Config:GetSetting('DoColdDot') end, },
-                { name = "CurseDot",     cond = function(self) return Config:GetSetting('DoCurseDot') > 1 end, },
-                { name = "PoisonDot",    cond = function(self) return Config:GetSetting('DoPoisonDot') > 1 end, },
                 { name = "FireDot2",     cond = function(self) return Config:GetSetting('DoFireDot') > 2 end, },
-                { name = "CurseDot2",    cond = function(self) return Config:GetSetting('DoCurseDot') > 2 end, },
-                { name = "PoisonDot2",   cond = function(self) return Config:GetSetting('DoPoisonDot') > 2 end, },
                 { name = "FireDot3",     cond = function(self) return Config:GetSetting('DoFireDot') > 3 end, },
+                { name = "CurseDot",     cond = function(self) return Config:GetSetting('DoCurseDot') > 1 end, },
+                { name = "CurseDot2",    cond = function(self) return Config:GetSetting('DoCurseDot') > 2 end, },
+                { name = "PoisonDot",    cond = function(self) return Config:GetSetting('DoPoisonDot') > 1 end, },
+                { name = "PoisonDot2",   cond = function(self) return Config:GetSetting('DoPoisonDot') > 2 end, },
                 { name = "DurationTap",  cond = function(self) return Config:GetSetting('DoDurationTap') end, },
+                { name = "ColdDot",   	 cond = function(self) return Config:GetSetting('DoColdDot') end, },
                 { name = "PlagueDot",    cond = function(self) return Config:GetSetting('DoPlagueDot') end, },
                 { name = "LichSpell",    cond = function(self) return Config:GetSetting('DoLich') end, },
                 { name = "OrbNuke",      cond = function(self) return Config:GetSetting('DoOrbNuke') end, },
@@ -1115,6 +1115,16 @@ local _ClassConfig = {
             Min = 1,
             Max = 3,
         },
+		['DoColdDot']       = {
+            DisplayName = "Do Cold Dot",
+            Group = "Abilities",
+            Header = "Damage",
+            Category = "Over Time",
+            Index = 104,
+            Tooltip = "Use your cold line of dots.",
+            RequiresLoadoutChange = true,
+            Default = true,
+        },
         ['DoDurationTap']     = {
             DisplayName = "Do Duration Tap",
             Group = "Abilities",
@@ -1132,16 +1142,6 @@ local _ClassConfig = {
             Category = "Over Time",
             Index = 104,
             Tooltip = "Use your plague (disease) line of dots.",
-            RequiresLoadoutChange = true,
-            Default = true,
-        },
-        ['DoColdDot']         = {
-            DisplayName = "Do Cold Dot",
-            Group = "Abilities",
-            Header = "Damage",
-            Category = "Over Time",
-            Index = 105,
-            Tooltip = "Use your grave (cold) line of dots.",
             RequiresLoadoutChange = true,
             Default = true,
         },
